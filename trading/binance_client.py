@@ -1,11 +1,18 @@
+from binance.client import Client
+
 class BinanceClient:
-    def __init__(self, api_key, api_secret, demo_mode=True):
-        self.api_key = api_key
-        self.api_secret = api_secret
-        self.demo_mode = demo_mode
+    def __init__(self, api_key, api_secret):
+        self.client = Client(api_key, api_secret)
 
     def place_order(self, symbol, side, quantity):
-        return {"status": "simulated", "symbol": symbol, "side": side, "quantity": quantity}
+        order = self.client.create_order(
+            symbol=symbol,
+            side=side.upper(),  # "BUY" oder "SELL"
+            type='MARKET',
+            quantity=quantity
+        )
+        return order
 
     def get_wallet_balance(self):
-        return {"USDT": 1000, "BTC": 0.01}
+        balances = self.client.get_account()["balances"]
+        return {b["asset"]: b["free"] for b in balances if float(b["free"]) > 0}
