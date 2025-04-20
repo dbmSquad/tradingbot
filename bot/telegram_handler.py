@@ -8,8 +8,7 @@ def handle_command(text: str):
         send_telegram_message("🛑 Bot gestoppt.")
     elif text == "/wallet":
         wallet = get_wallet_status()
-        send_telegram_message(f"💰 Wallet:
-{wallet}")
+        send_telegram_message(f"💰 Wallet:\n{wallet}")
     elif text == "/buy":
         execute_trade("BTCUSDT", "buy", 0.001)
     elif text == "/sell":
